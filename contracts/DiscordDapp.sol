@@ -8,6 +8,7 @@ contract DiscorDapp is ERC721 {
     uint256 public totalChannels ; 
 
     address public owner ;
+    uint public totalSupply ; 
     modifier onlyOwner() {
         require(msg.sender == owner );
         _;
@@ -20,6 +21,7 @@ contract DiscorDapp is ERC721 {
     }
 
     mapping(uint256 =>Channel) public channels ;
+    mapping(uint256 => mapping(address=>bool)) public hasJoined ;
 
 
    constructor(string memory _name , string memory _symbol) ERC721 (_name , _symbol){
@@ -37,6 +39,13 @@ function createChannel(string memory _name, uint256 _cost) public onlyOwner {
 
     channels[totalChannels]= Channel(totalChannels, _name ,_cost);
 
+}
+
+function mint(uint256 _id) public payable {
+
+    hasJoined[_id][msg.sender] = true ;
+    totalSupply++ ;
+    _safeMint(msg.sender, totalSupply);
 }
 
 function getChannel(uint256 _id) public view returns(Channel memory){
