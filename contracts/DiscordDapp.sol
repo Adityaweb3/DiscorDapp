@@ -7,7 +7,11 @@ contract DiscorDapp is ERC721 {
 
     uint256 public totalChannels ; 
 
-    address public owner ; 
+    address public owner ;
+    modifier onlyOwner() {
+        require(msg.sender == owner );
+        _;
+    }
 
     struct Channel {
         uint256 id ;
@@ -26,17 +30,21 @@ contract DiscorDapp is ERC721 {
 
 }
 
-function createChannel(string memory _name, uint256 _cost) public {
+function createChannel(string memory _name, uint256 _cost) public onlyOwner {
+    require(msg.sender==owner);
 
     totalChannels++ ;
 
     channels[totalChannels]= Channel(totalChannels, _name ,_cost);
 
+}
 
-
-
+function getChannel(uint256 _id) public view returns(Channel memory){
+    return channels[_id];
 
 }
+
+
 
     
 }

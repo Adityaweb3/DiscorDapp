@@ -19,6 +19,9 @@ describe("DiscorDapp", function () {
     
        discordapp = await DiscorDapp.deploy(NAME, SYMBOL)
 
+       const transaction = await discordapp.connect(deployer).createChannel("general" , tokens(1))
+       await transaction.wait()
+
   })
 
   describe("Deployment", function(){
@@ -50,6 +53,21 @@ describe("DiscorDapp", function () {
 
     
 
+  })
+
+  describe ("creating Channels" , ()=>{
+
+    it("returns the total channels", async()=>{
+      const result = await discordapp.totalChannels()
+      expect(result).to.equal(1)
+    })
+
+    it("Returns channels attributes", async()=>{
+      const channel = await discordapp.getChannel(1)
+      expect(channel.id).to.be.equal(1)
+      expect(channel.name).to.be.equal("general")
+      expect(channel.cost).to.be.equal(tokens(1))
+    })
   })
 
 })
