@@ -9,7 +9,7 @@ import Channels from './components/Channels'
 import Messages from './components/Messages'
 
 // ABIs
-import Dappcord from './abis/Dappcord.json'
+import Dappcord from './abis/DiscorDapp.json'
 
 // Config
 import config from './config.json';
@@ -19,9 +19,26 @@ const socket = io('ws://localhost:3030');
 
 function App() {
 
+  const [account , setAccount] = useState(null)
+
+  const loadBlockchainData = async()=>{
+
+
+    window.ethereum.on('accountsChanged', async () => {
+      window.location.reload()
+    })
+    
+  }
+
+  useEffect(()=>{
+    loadBlockchainData()
+  })
+
   return (
     <div>
-      <h1 style={{ textAlign: "center", padding: "15px" }}>Welcome to DiscordDapp</h1>
+      <Navigation  account ={account} setAccount={setAccount} />
+      
+      
 
       <main>
 
