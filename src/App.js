@@ -42,6 +42,10 @@ function App() {
 
       <main>
 
+        <servers />
+        <Channels />
+        <Messages />
+
       </main>
     </div>
   );
